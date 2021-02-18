@@ -1,16 +1,10 @@
 FROM hashicorp/packer:light
 
 # Install Ansible for provisioning
-
-
-
-RUN apk add --no-cache --purge -uU ansible ansible-lint sudo curl ca-certificates openssh-client \
-  && apk --update add --virtual .build-dependencies python3-dev libffi-dev openssl-dev build-base \
-  && pip install --no-cache --upgrade ansible \
-  && apk del --purge .build-dependencies \
-  && rm -rf /var/cache/apk/*
-
-
+RUN apk update \
+ && apk add --no-cache python3 musl-dev libffi-dev openssl-dev make gcc python py2-pip python-dev \
+ && pip install cffi \
+ && pip install ansible
 
 COPY "entrypoint.sh" "/entrypoint.sh"
 
