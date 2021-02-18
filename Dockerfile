@@ -6,7 +6,7 @@ FROM hashicorp/packer:light
 
 RUN apk add --no-cache --purge -uU ansible ansible-lint sudo curl ca-certificates openssh-client \
   && apk --update add --virtual .build-dependencies python3-dev libffi-dev openssl-dev build-base \
-  && pip3 install --no-cache --upgrade ansible \
+  && pip install --no-cache --upgrade ansible \
   && apk del --purge .build-dependencies \
   && rm -rf /var/cache/apk/*
 
