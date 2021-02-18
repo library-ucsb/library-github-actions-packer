@@ -1,19 +1,15 @@
 FROM hashicorp/packer:light
 
 # Install Ansible for provisioning
-RUN apk add --no-cache --virtual .run-deps \
-       python2 \
-       openssh \
-    && apk add --no-cache --virtual .build-deps \
-        alpine-sdk \
-        py-setuptools \
-        libffi-dev \
-        python2-dev \
-        openssl-dev \
-    && easy_install-2.7 pip \
-    && pip install ansible \
-    && apk --purge del .build-deps \
-    && rm -rf /var/cache/apk /root/.cache
+
+
+
+RUN apk add --no-cache --purge -uU ansible ansible-lint sudo curl ca-certificates openssh-client \
+  && apk --update add --virtual .build-dependencies python3-dev libffi-dev openssl-dev build-base \
+  && pip3 install --no-cache --upgrade ansible \
+  && apk del --purge .build-dependencies \
+  && rm -rf /var/cache/apk/*
+
 
 
 COPY "entrypoint.sh" "/entrypoint.sh"
